@@ -1,4 +1,4 @@
-package carretti;
+package valueobject;
 
 public class Prodotto {
 	String codice;

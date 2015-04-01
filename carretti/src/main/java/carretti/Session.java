@@ -2,7 +2,7 @@ package carretti;
 
 import java.util.Date;
 
-public class Sessione {
+public class Session {
 
 	String codice;
 	

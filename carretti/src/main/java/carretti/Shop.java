@@ -3,6 +3,8 @@ package carretti;
 import java.util.ArrayList;
 import java.util.List;
 
+import valueobject.Prodotto;
+
 public class Shop {
 
 	private List<Prodotto> prodotti = null;

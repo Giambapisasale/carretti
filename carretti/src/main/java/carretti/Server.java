@@ -1,23 +1,45 @@
 package carretti;
 
+import java.util.HashMap;
+import java.util.List;
+
+import valueobject.Prodotto;
+import valueobject.Request;
+import valueobject.Response;
+
 public class Server {
 
-	final String users []  = {"user1", "user2"};
+	final String users[] = { "user1", "user2" };
 	
+	Session session;
+
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
 	/**
-	 * Login utente
-	 * simula l'autenticazione verificando presenza utenti 
+	 * Login utente simula l'autenticazione verificando presenza utenti
+	 * 
 	 * @param user
 	 * @param password
-	 * @return user se login è corretto
+	 * @return Response popolata con i valori di ritorno
 	 */
-	public String login(String username, String password) {
-		for(String user: users) {
-			if(user.equals(username)) return user;
+	public Response login(String username, String password) {
+		Response response = new Response();
+
+		for (String user : users) {
+			if (user.equals(username)) {
+				response.setResult(user);
+				response.setEsito(true);
+			}
 		}
-		return null;
+		return response;
 	}
-	
+
 	/**
 	 * empty utility method
 	 */
@@ -25,6 +47,42 @@ public class Server {
 		return;
 	}
 	
+	/**
+	 * restituisce la lista di tutti i prodotti disponibili nello shop
+	 * @return
+	 */
+	public List<Prodotto> getListaProdotti() {
+		return new Shop().getProdotti();
+	}
+
+	/**
+	 * Recupera la lista di prodotti attualmente presenti nel carrello
+	 * @param request
+	 * @return
+	 */
+	public HashMap<Integer, Prodotto> getListaProdottiCarrello(Request request) {
+		return getSession().getCarrello().getListaProdotti();
+	}
 	
+	/**
+	 * aggiunge una quantita di prodotto al carrello
+	 * @param codice
+	 * @param quantita
+	 */
+	public void addProdotto(String codice, int quantita, Request request) {
+		getSession().getCarrello().addByCodice(codice, quantita);
+		return;
+	}
+	
+	/**
+	 * rimuove una quantita di prodotto dal carrello
+	 * @param codice
+	 * @param quantita
+	 */
+	
+	public void removeProdotto(String codice, int quantita, Request request) {
+		getSession().getCarrello().removeByCodice(codice, quantita);
+		return;
+	}
 	
 }

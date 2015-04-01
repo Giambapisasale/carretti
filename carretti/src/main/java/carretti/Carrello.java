@@ -3,6 +3,8 @@ package carretti;
 import java.util.HashMap;
 import java.util.List;
 
+import valueobject.Prodotto;
+
 public class Carrello {
 
 	// Lista di codici di prodotto legata alla quantità
