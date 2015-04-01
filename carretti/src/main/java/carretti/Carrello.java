@@ -1,5 +1,85 @@
 package carretti;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class Carrello {
 
+	// Lista di codici di prodotto legata alla quantità
+	// presente nel carrello in un dato momento
+	private HashMap<String, Integer> prodotti = null;
+
+	/**
+	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantità se
+	 * il prodotto è già presente Inizializzazione lazy del carrello
+	 * 
+	 * @param codice
+	 *            codice prodotto
+	 * @param quantita
+	 *            quantita da aggiungere al carrello
+	 */
+	public void addByCodice(String codice, int quantita) {
+		// aggiunge un prodotto al carrello per codice
+
+		// TODO spostare l'inizializzazione laxy in un aspetto dedicato
+		if (prodotti == null) {
+			prodotti = new HashMap<String, Integer>();
+		}
+
+		Integer quantitaAttuale = 0;
+		if (prodotti.containsKey(codice)) {
+			quantitaAttuale = prodotti.get(codice);
+		}
+		quantitaAttuale += quantita;
+
+		prodotti.put(codice, quantitaAttuale);
+
+		return;
+
+	}
+
+	/**
+	 * Rimuove un prodotto dal carrello dato il codice, decrementa la quantità
+	 * se il prodotto è già presente
+	 * 
+	 * 
+	 * @param codice
+	 *            codice prodotto
+	 * @param quantita
+	 *            quantita da rimuovere dal carrello
+	 */
+	public void removeByCodice(String codice, int quantita) {
+		if (prodotti != null && prodotti.size() > 0
+				&& prodotti.containsKey(codice)) {
+			
+			Integer quantitaAttuale = prodotti.get(codice);
+			quantitaAttuale -= quantita;
+			if (quantitaAttuale <= 0) {
+				prodotti.remove(codice);
+			} else {
+				prodotti.put(codice, quantitaAttuale);
+			}
+		}
+		return;
+	}
+	
+	public HashMap<Integer, Prodotto> getListaProdotti () {
+		HashMap<Integer, Prodotto> carrello = new HashMap<Integer, Prodotto>();
+		for(String codice : prodotti.keySet()) {
+			
+			// recupero una istanza dello shop
+			// TODO passare a singleton, simula una chiamata al database
+			Shop shop = new Shop();
+			// recupero un prodotto a partire dal codice
+			Prodotto p = shop.getProdottoByCodice(codice);
+			
+			if(p != null) {
+				// recupero la quantità attualmente presente nel carrello
+				// la associo ad un prodotto esistente
+				carrello.put(prodotti.get(codice), p);
+			}
+		}
+		return carrello;
+	}
+	
 }
