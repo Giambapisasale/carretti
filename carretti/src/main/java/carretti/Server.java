@@ -60,7 +60,7 @@ public class Server {
 	 * @param request
 	 * @return
 	 */
-	public HashMap<Integer, Prodotto> getListaProdottiCarrello(Request request) {
+	public HashMap<String, Prodotto> getListaProdottiCarrello(Request request) {
 		return getSession().getCarrello().getListaProdotti();
 	}
 	
@@ -78,9 +78,10 @@ public class Server {
 	 * rimuove una quantita di prodotto dal carrello
 	 * @param codice
 	 * @param quantita
+	 * @throws Exception 
 	 */
 	
-	public void removeProdotto(String codice, int quantita, Request request) {
+	public void removeProdotto(String codice, int quantita, Request request) throws Exception {
 		getSession().getCarrello().removeByCodice(codice, quantita);
 		return;
 	}

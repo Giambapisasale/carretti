@@ -7,7 +7,12 @@ import valueobject.Prodotto;
 
 public class Carrello {
 
-	// Lista di codici di prodotto legata alla quantità
+	
+	private Integer id;
+	
+	
+	
+	// Lista di codici di prodotto legata alla quantitï¿½
 	// presente nel carrello in un dato momento
 	private HashMap<String, Integer> prodotti = null;
 
@@ -49,24 +54,27 @@ public class Carrello {
 	 *            codice prodotto
 	 * @param quantita
 	 *            quantita da rimuovere dal carrello
+	 * @throws Exception 
 	 */
-	public void removeByCodice(String codice, int quantita) {
+	public void removeByCodice(String codice, int quantita) throws Exception {
 		if (prodotti != null && prodotti.size() > 0
 				&& prodotti.containsKey(codice)) {
 			
 			Integer quantitaAttuale = prodotti.get(codice);
-			quantitaAttuale -= quantita;
+			quantitaAttuale -= Math.abs(quantita);
 			if (quantitaAttuale <= 0) {
 				prodotti.remove(codice);
 			} else {
 				prodotti.put(codice, quantitaAttuale);
 			}
+		} else {
+			throw new Exception("non ci sono prodotti con questo codice");
 		}
 		return;
 	}
 	
-	public HashMap<Integer, Prodotto> getListaProdotti () {
-		HashMap<Integer, Prodotto> carrello = new HashMap<Integer, Prodotto>();
+	public HashMap<String, Prodotto> getListaProdotti () {
+		HashMap<String, Prodotto> carrello = new HashMap<String, Prodotto>();
 		for(String codice : prodotti.keySet()) {
 			
 			// recupero una istanza dello shop
@@ -78,7 +86,7 @@ public class Carrello {
 			if(p != null) {
 				// recupero la quantità attualmente presente nel carrello
 				// la associo ad un prodotto esistente
-				carrello.put(prodotti.get(codice), p);
+				carrello.put(p.getCodice(), p);
 			}
 		}
 		return carrello;
