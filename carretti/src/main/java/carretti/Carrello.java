@@ -1,9 +1,9 @@
 package carretti;
 
 import java.util.HashMap;
-import java.util.List;
 
 import valueobject.Prodotto;
+import valueobject.ProdottoCarrello;
 
 public class Carrello {
 
@@ -12,34 +12,51 @@ public class Carrello {
 	
 	
 	
-	// Lista di codici di prodotto legata alla quantitï¿½
-	// presente nel carrello in un dato momento
-	private HashMap<String, Integer> prodotti = null;
+	private HashMap<String, ProdottoCarrello> products = null;
+	
+	/**
+	 * Lista di codici di prodotto legata alla quantità 
+	 * presente nel carrello in un dato momento
+	 */
+	private HashMap<String, ProdottoCarrello> prodotti = null;
 
 	/**
-	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantitï¿½ se
-	 * il prodotto ï¿½ giï¿½ presente Inizializzazione lazy del carrello
+	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantità se
+	 * il prodotto è già presente Inizializzazione lazy del carrello
 	 * 
 	 * @param codice
 	 *            codice prodotto
 	 * @param quantita
 	 *            quantita da aggiungere al carrello
+	 * @throws Exception 
 	 */
-	public void addByCodice(String codice, int quantita) {
+	public void addByCodice(String codice, int quantita) throws Exception {
 		// aggiunge un prodotto al carrello per codice
 
 		// TODO spostare l'inizializzazione laxy in un aspetto dedicato
 		if (prodotti == null) {
-			prodotti = new HashMap<String, Integer>();
+			prodotti = new HashMap<String, ProdottoCarrello>();
 		}
-
+		// recupero una istanza dello shop
+		// TODO passare a singleton, simula una chiamata al database
+		Shop shop = new Shop();
+		// recupero un prodotto a partire dal codice
+		Prodotto p = shop.getProdottoByCodice(codice);
+		
+		if(p == null){
+			System.err.println("sono dentro if");
+			throw new Exception("nessun prodotto con il codice " + codice + " è stato"
+					+ " trovato");
+			
+		}else
+			System.err.println("sono qui dentro");
 		Integer quantitaAttuale = 0;
 		if (prodotti.containsKey(codice)) {
-			quantitaAttuale = prodotti.get(codice);
+			quantitaAttuale = prodotti.get(codice).getQuantity();
 		}
 		quantitaAttuale += quantita;
-
-		prodotti.put(codice, quantitaAttuale);
+		prodotti.put(codice, new ProdottoCarrello(p, quantitaAttuale));
+//		prodotti.put(codice, quantitaAttuale);
 
 		return;
 
@@ -60,12 +77,12 @@ public class Carrello {
 		if (prodotti != null && prodotti.size() > 0
 				&& prodotti.containsKey(codice)) {
 			
-			Integer quantitaAttuale = prodotti.get(codice);
-			quantitaAttuale -= Math.abs(quantita);
-			if (quantitaAttuale <= 0) {
+			ProdottoCarrello p = prodotti.get(codice);
+			p.setQuantity(p.getQuantity() - Math.abs(quantita));
+			if (p.getQuantity() <= 0) {
 				prodotti.remove(codice);
 			} else {
-				prodotti.put(codice, quantitaAttuale);
+				prodotti.put(codice, p);
 			}
 		} else {
 			throw new Exception("non ci sono prodotti con questo codice");
@@ -73,8 +90,8 @@ public class Carrello {
 		return;
 	}
 	
-	public HashMap<String, Prodotto> getListaProdotti () {
-		HashMap<String, Prodotto> carrello = new HashMap<String, Prodotto>();
+	public HashMap<String, ProdottoCarrello> getListaProdotti () {
+		HashMap<String, ProdottoCarrello> carrello = new HashMap<String, ProdottoCarrello>();
 		for(String codice : prodotti.keySet()) {
 			  
 			// recupero una istanza dello shop
@@ -84,9 +101,9 @@ public class Carrello {
 			Prodotto p = shop.getProdottoByCodice(codice);
 			
 			if(p != null) {
-				// recupero la quantitï¿½ attualmente presente nel carrello
+				// recupero la quantità attualmente presente nel carrello
 				// la associo ad un prodotto esistente
-				carrello.put(p.getCodice(), p);
+				carrello.put(p.getCodice(), prodotti.get(codice));
 			}
 		}
 		return carrello;
