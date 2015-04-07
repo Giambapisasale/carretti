@@ -1,9 +1,23 @@
 package valueobject;
 
+import carretti.Carrello;
+import carretti.Session;
+
 public class Response {
 
 	String result = null;
 	String sessionCode = null;
+	Boolean esito;
+	
+	
+
+	public Response() {
+		this.esito = false;
+	}
+	
+	
+	
+	
 	public String getSessionCode() {
 		return sessionCode;
 	}
@@ -11,9 +25,11 @@ public class Response {
 	public void setSessionCode(String sessionCode) {
 		this.sessionCode = sessionCode;
 	}
+	 
 
-	Boolean esito;
-
+	
+	
+	
 	public String getResult() {
 		return result;
 	}
@@ -32,8 +48,6 @@ public class Response {
 		this.esito = esito;
 	}
 
-	public Response() {
-		this.esito = false;
-	}
+	
 
 }

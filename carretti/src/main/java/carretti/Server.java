@@ -60,9 +60,11 @@ public class Server {
 	 * @param request
 	 * @return
 	 */
+	/*
 	public HashMap<String, Prodotto> getListaProdottiCarrello(Request request) {
 		return getSession().getCarrello().getListaProdotti();
 	}
+	*/
 	
 	/**
 	 * aggiunge una quantita di prodotto al carrello
