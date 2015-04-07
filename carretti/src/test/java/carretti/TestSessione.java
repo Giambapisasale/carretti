@@ -1,8 +1,6 @@
 package carretti;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -34,8 +32,7 @@ public final class TestSessione {
 	@Test
 	public void testLoginCorrect() {
 		Response actual = server.login(USER_1, PWD);
-		System.err.println(actual);
-		assertTrue(actual.getEsito());
+		assertTrue("Esito is false", actual.getEsito());
 	}
 	
 	/**
@@ -44,7 +41,7 @@ public final class TestSessione {
 	@Test
 	public void testLoginNotCorrect() {
 		Response actual = server.login(FAKE_USER, PWD);
-		assertFalse(actual.getEsito());
+		assertFalse("Esito is true", actual.getEsito());
 	}
 	
 	/**
@@ -54,6 +51,31 @@ public final class TestSessione {
 	public void testSameUserId() {
 		Response expected = server.login(USER_1, PWD);
 		Response actual = server.login(USER_1, PWD);
-		assertTrue(expected.getSessionCode().equals(actual.getSessionCode()));
+		assertTrue("The session ID aren't the same",
+				expected.getSessionCode().equals(actual.getSessionCode()));
+	}
+	
+	/**
+	 * due accessi con credenziali corrette
+	 */
+	@Test
+	public void testDifferentUserId() {
+		Response response = server.login(USER_1, PWD);
+		Response actual = server.login(USER_2, PWD);
+		assertFalse("The session ID are the same", 
+				actual.getSessionCode().equals(response.getSessionCode()));
+	}
+	
+	/**
+	 * log out di un utente e log in dello stesso utente. La sessione
+	 * dovrebbe essere differente
+	 */
+	@Test
+	public void testBeforeLogoutAfterLogin() {
+		Response response = server.login(USER_1, PWD);
+		server.logout();
+		Response actual = server.login(USER_1, PWD);
+		assertFalse("The session ID are the same",
+				actual.getSessionCode().equals(response.getSessionCode()));
 	}
 }
