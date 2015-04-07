@@ -17,8 +17,8 @@ public class Carrello {
 	private HashMap<String, Integer> prodotti = null;
 
 	/**
-	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantità se
-	 * il prodotto è già presente Inizializzazione lazy del carrello
+	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantitï¿½ se
+	 * il prodotto ï¿½ giï¿½ presente Inizializzazione lazy del carrello
 	 * 
 	 * @param codice
 	 *            codice prodotto
@@ -46,8 +46,8 @@ public class Carrello {
 	}
 
 	/**
-	 * Rimuove un prodotto dal carrello dato il codice, decrementa la quantità
-	 * se il prodotto è già presente
+	 * Rimuove un prodotto dal carrello dato il codice, decrementa la quantitï¿½
+	 * se il prodotto ï¿½ giï¿½ presente
 	 * 
 	 * 
 	 * @param codice
@@ -84,12 +84,28 @@ public class Carrello {
 			Prodotto p = shop.getProdottoByCodice(codice);
 			
 			if(p != null) {
-				// recupero la quantità attualmente presente nel carrello
+				// recupero la quantitï¿½ attualmente presente nel carrello
 				// la associo ad un prodotto esistente
 				carrello.put(p.getCodice(), p);
 			}
 		}
 		return carrello;
+	}
+
+	
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 }
