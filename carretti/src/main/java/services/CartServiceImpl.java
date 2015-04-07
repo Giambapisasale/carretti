@@ -35,9 +35,6 @@ public class CartServiceImpl implements CartService {
 	}
 	public void populateDummyData() throws Exception {
 		Carrello cart = new Carrello();
-		cart.addByCodice("COD01", 2);
-		cart.addByCodice("COD02", 3);
-		cart.addByCodice("COD03", 3);
 		cart.setId(0001);
 		setCartBySessionId(cart.getId(), "f543c2ccfa550171f5816c9fdc310165c7e1cc10");
 		

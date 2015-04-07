@@ -2,6 +2,7 @@ package aspetti;
 
 import valueobject.Response;
 import utils.GenerateId;
+import carretti.Carrello;
 import carretti.Server;
 import carretti.Session;
 import services.ClientServiceImpl;
@@ -31,13 +32,18 @@ public aspect LoginAspect {
 					 * controllo se l'utente era già presente nel sistema
 					 */
 					String UserHasSession = isReturnedUser(username);
-					System.out.println("*****UserHasSession ="+UserHasSession);
 
 					String userSessionid = (UserHasSession != null && !UserHasSession.isEmpty()) ? 
 							UserHasSession : initSessionId();
 					System.out.println("*****userSessionid ="+userSessionid);
+					
+					Session session = setSession(userSessionid);
+					System.out.println("*****session.getCodice() ="+session.getCodice());
 
-					setSession(userSessionid);
+					/* salvo il codice della Session in Response */
+					r.setSessionCode(session.getCodice());
+					
+					System.out.println("****Cart:"+session.getCarrello().getId());
 					
 					
 					
@@ -58,12 +64,17 @@ public aspect LoginAspect {
 			String SessionID = myId.generateRandomId();
 			return SessionID;
 		}
-		private void setSession(String sessionID) {
+		private Session setSession(String sessionID) {
 			Session session = new Session();
 			session.setCodice(sessionID);
-			Server server = new Server();
-			server.setSession(session);
-			System.out.println("**Save User Session**"+server.getSession().getCodice());
+			session.setCarrello(getUserCart());
+			return session;
+			
+		}
+		private Carrello getUserCart() {
+			Carrello cart = new Carrello();
+			cart.setId(101);
+			return cart;
 		}
 		
 

@@ -9,16 +9,16 @@ public final class ProdottoCarrello {
 	 * prodotto scelto
 	 */
 	private Prodotto product;
-	
+
 	/**
-	 * quantit‡ desiderata per il prodotto
+	 * quantit√† desiderata per il prodotto
 	 */
 	private Integer quantity;
-	
+
 	public ProdottoCarrello(final Prodotto product) {
 		this(product, 0);
 	}
-	
+
 	public ProdottoCarrello(final Prodotto product, final Integer quantity) {
 		this.product = product;
 		this.quantity = quantity;
@@ -37,23 +37,26 @@ public final class ProdottoCarrello {
 	public final Integer getQuantity() {
 		return quantity;
 	}
-	
 
 	/**
-	 * @param product the product to set
+	 * @param product
+	 *            the product to set
 	 */
 	public final void setProduct(Prodotto product) {
 		this.product = product;
 	}
 
 	/**
-	 * @param quantity the quantity to set
+	 * @param quantity
+	 *            the quantity to set
 	 */
 	public final void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -61,5 +64,5 @@ public final class ProdottoCarrello {
 		return "ProdottoCarrello [product=" + product + ", quantity="
 				+ quantity + "]";
 	}
-	
+
 }

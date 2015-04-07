@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import valueobject.Prodotto;
-import valueobject.ProdottoCarrello;
 import valueobject.Request;
 import valueobject.Response;
 
@@ -61,18 +60,24 @@ public class Server {
 	 * @param request
 	 * @return
 	 */
-	public HashMap<String, ProdottoCarrello> getListaProdottiCarrello(Request request) {
+	/*
+	public HashMap<String, Prodotto> getListaProdottiCarrello(Request request) {
 		return getSession().getCarrello().getListaProdotti();
 	}
+	*/
 	
 	/**
 	 * aggiunge una quantita di prodotto al carrello
 	 * @param codice
 	 * @param quantita
-	 * @throws Exception 
 	 */
-	public void addProdotto(String codice, int quantita, Request request) throws Exception {
-		getSession().getCarrello().addByCodice(codice, quantita);
+	public void addProdotto(String codice, int quantita, Request request) {
+		try {
+			getSession().getCarrello().addByCodice(codice, quantita);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return;
 	}
 	
