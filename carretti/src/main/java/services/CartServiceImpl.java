@@ -20,8 +20,6 @@ public class CartServiceImpl implements CartService {
 		
 		/* Simulo dati provenienti da DAO */
 		Carrello cart = new Carrello();
-		cart.addByCodice("COD01", 2);
-		cart.addByCodice("COD02", 3);
 		cart.setId(cartId);
 		
 		return cart;
