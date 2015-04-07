@@ -3,9 +3,9 @@ package aspetti;
 import valueobject.Response;
 import utils.GenerateId;
 import carretti.Carrello;
-import carretti.Server;
 import carretti.Session;
 import services.ClientServiceImpl;
+import services.SessionServiceImpl;
 
 public aspect LoginAspect {
 
@@ -42,14 +42,20 @@ public aspect LoginAspect {
 
 					/* salvo il codice della Session in Response */
 					r.setSessionCode(session.getCodice());
-					
 					System.out.println("****Cart:"+session.getCarrello().getId());
 					
+					/* Salvo l'obj Session simulando la persistenza */
+					persistSession(session);
 					
-					
+			
 				} else System.out.println("* Login failed");
 		 }
 		
+		
+		/*
+		 * @param user login 
+		 * Ricerca la chiave login 
+		 */
 		private String isReturnedUser(String login) {
 			ClientServiceImpl cl = new ClientServiceImpl();
 			String ret = cl.findUserByEmail(login);
@@ -58,25 +64,47 @@ public aspect LoginAspect {
 			}
 			return null;
 		}
+
 		
+		/*
+		 * genera un ID di session
+		 */
 		private String initSessionId() {
 			GenerateId myId = new GenerateId();
 			String SessionID = myId.generateRandomId();
 			return SessionID;
 		}
+		/*
+		 * @param sessionID 
+		 * inizializza una nuova istanza di Session e salva il codice sessionID e
+		 * e il carrello utente
+		 * N.B: da integrare con nuove funzioni di gestione del carrello
+		 */
 		private Session setSession(String sessionID) {
 			Session session = new Session();
 			session.setCodice(sessionID);
 			session.setCarrello(getUserCart());
 			return session;
-			
 		}
+		
+		/*
+		 * Provvisoria: setta un id del carrello  
+		 */
+		
 		private Carrello getUserCart() {
 			Carrello cart = new Carrello();
 			cart.setId(101);
 			return cart;
 		}
 		
-
-
+		
+		/*
+		 * @param Session session
+		 * simula la persistenza dei dati di session, memorizzando la chiave in una classe Singleton
+		 */
+		private void persistSession(Session session) {
+			SessionServiceImpl.getInstance().saveSession(session);
+			System.out.println("SESSIONE SALVATA:"+SessionServiceImpl.getInstance().findSessionByKey(session.getCodice()).getCodice() );
+			
+		}
 }

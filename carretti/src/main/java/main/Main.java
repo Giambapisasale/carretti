@@ -7,7 +7,9 @@ package main;
 //import carretti.Carrello;
 //import carretti.Client;
 import carretti.Server;
+import carretti.Session;
 import services.ClientServiceImpl;
+import services.SessionServiceImpl;
 //import utils.LoginCallbackHandler;
 import valueobject.Response;
 
@@ -19,33 +21,23 @@ public class Main {
 			final String username = "user1";
 			final String password = "user1";
 
+			/* Effettuo login */
 			Server server = new Server();
 			Response ret  = server.login(username, password);
 			
-			Server server2 = new Server();
-			Response ret2 = server2.login(username, password);
-			
+			/* Esito della login */
 			System.out.println("* Main:"+ret.getEsito());
+			/* Session popolata dall'aspetto*/
 			System.out.println("* Main:	ret.getSessionData(): "+ret.getSessionCode());
-
-			System.out.println("* Main2:"+ret2.getEsito());
-			System.out.println("* Main2:	ret.getSessionData(): "+ret2.getSessionCode());
-
 			
+			/* Recupero la sessione memorizzata nell'aspetto*/
 			
-			ClientServiceImpl cl = new ClientServiceImpl();
-			
-			String ret1 = cl.findUserByEmail(username);
-			if (ret1 != null && !ret1.isEmpty()) {
-					System.out.println("esiste");
-			} else 
-				System.out.println("non esiste");
-			
-			
+			System.out.println("Sessione Utente:" + 
+					SessionServiceImpl.getInstance().findSessionByKey(ret.getSessionCode()).getCodice());
 
 			
 			
-/*			
+			/*			
 			System.setProperty("java.security.auth.login.config", "jaas.config");
 
 
