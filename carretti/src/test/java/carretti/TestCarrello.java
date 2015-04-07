@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import valueobject.Prodotto;
+import valueobject.ProdottoCarrello;
 
 public class TestCarrello {
 	private Shop shop;
@@ -62,11 +63,16 @@ public class TestCarrello {
 	
 	/**
 	 * prova ad inserire un prodotto che non esiste nello Shop
+	 * @throws Exception 
 	 */
 	@Test
 	public void testAddProductNotExist() {
-		carrello.addByCodice(P1.getCodice(), 10);
-		assertEquals("i due insiemi non sono uguali", new HashMap<Integer, Prodotto>(), carrello.getListaProdotti());
+		try {
+			carrello.addByCodice(P1.getCodice(), 10);
+			fail("il prodotto aggiunto non esiste");
+		} catch (Exception e) {
+			//intentionally empty
+		}
 	}
 	
 	/**
@@ -76,11 +82,22 @@ public class TestCarrello {
 	 */
 	@Test
 	public void testAddProducts() {
+		int quantity = 10;
 		Set<Prodotto> prods = initProducts(P1,P2,P3,P4,P5);
 		for(Prodotto p : prods)
-			carrello.addByCodice(p.getCodice(), 10);
-		HashMap<String, Prodotto> expected = new HashMap<String, Prodotto>();
-		expected.put(P2.getCodice(), P2);
+			try {
+				carrello.addByCodice(p.getCodice(), quantity);
+			} catch (Exception e) {
+				//intentionally empty
+			}
 		
+		//controllo se effettivamente ha inserita 4 prodotti nel carrello
+		assertEquals("la dimensione non corrisponde", 4, carrello.getListaProdotti().size());
+		
+		assertFalse(carrello.getListaProdotti().containsKey(P1.getCodice()));
+		assertTrue(carrello.getListaProdotti().containsKey(P2.getCodice()));
+		assertTrue(carrello.getListaProdotti().containsKey(P3.getCodice()));
+		assertTrue(carrello.getListaProdotti().containsKey(P4.getCodice()));
+		assertTrue(carrello.getListaProdotti().containsKey(P5.getCodice()));
 	}
 }
