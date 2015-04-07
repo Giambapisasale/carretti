@@ -25,8 +25,8 @@ public class Main {
 			Response ret  = server.login(username, password);
 			System.out.println("* Main:"+ret.getEsito());
 			
-		    Response ret2  = server.login("user2", "user");
-			System.out.println("* Main:"+ret2.getEsito());
+		  //  Response ret2  = server.login("user2", "user");
+	//		System.out.println("* Main:"+ret2.getEsito());
 
 
 			

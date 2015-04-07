@@ -15,7 +15,6 @@ public aspect LoginAspect {
 
 		before(String username, String password) : trapUserLogin(username , password ) {
 			
-			// System.out.println("* Before UserLogin paramters :"+username+' '+password);
 		}
 		after(String username, String password) : trapUserLogin(username, password) {
 			//System.out.println("* After UserLogin parameters:"+username+' '+password);
@@ -24,8 +23,7 @@ public aspect LoginAspect {
 		/* Intercetto il valore di ritorno della funzione login()*/
 		after(String username, String password) returning(Response r): trapUserLogin(username, password) {
 				System.out.println("* after con valore di ritorno ="+r.getEsito());
-				//System.out.println("* after con parametri ="+username+" " +password);
-
+	
 				if (r.getEsito()) {
 					System.out.println("* Login ok ");
 					
@@ -33,10 +31,12 @@ public aspect LoginAspect {
 					 * controllo se l'utente era già presente nel sistema
 					 */
 					String UserHasSession = isReturnedUser(username);
-				    
+					System.out.println("*****UserHasSession ="+UserHasSession);
+
 					String userSessionid = (UserHasSession != null && !UserHasSession.isEmpty()) ? 
 							UserHasSession : initSessionId();
-					
+					System.out.println("*****userSessionid ="+userSessionid);
+
 					setSession(userSessionid);
 					
 					

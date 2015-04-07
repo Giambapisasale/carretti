@@ -3,5 +3,6 @@
 /valueobject/
 /aspetti/
 /main/
-/services/
 /utils/
+/services/
+/.gitignore
