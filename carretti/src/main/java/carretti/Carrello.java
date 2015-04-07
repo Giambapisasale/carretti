@@ -76,7 +76,7 @@ public class Carrello {
 	public HashMap<String, Prodotto> getListaProdotti () {
 		HashMap<String, Prodotto> carrello = new HashMap<String, Prodotto>();
 		for(String codice : prodotti.keySet()) {
-			
+			  
 			// recupero una istanza dello shop
 			// TODO passare a singleton, simula una chiamata al database
 			Shop shop = new Shop();
