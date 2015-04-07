@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import valueobject.Prodotto;
+import valueobject.ProdottoCarrello;
 import valueobject.Request;
 import valueobject.Response;
 
@@ -61,7 +62,7 @@ public class Server {
 	 * @return
 	 */
 	
-	public HashMap<String, Prodotto> getListaProdottiCarrello(Request request) {
+	public HashMap<String, ProdottoCarrello> getListaProdottiCarrello(Request request) {
 		return getSession().getCarrello().getListaProdotti();
 	}
 	

@@ -4,12 +4,10 @@ import carretti.Carrello;
 import carretti.Session;
 
 public class Response {
-
 	String result = null;
 	String sessionCode = null;
 	Boolean esito;
 	
-	Session sessionData;
 	
 
 	public Response() {
@@ -40,23 +38,6 @@ public class Response {
 	}
 
 	
-	
-
-	public Session getSessionData() {
-		return sessionData;
-	}
-
-
-
-	public void setSessionData(Session sessionData) {
-		this.sessionData = sessionData;
-	}
-
-
-
-	
-
-
 
 	public Boolean getEsito() {
 		return esito;
@@ -65,7 +46,14 @@ public class Response {
 	public void setEsito(Boolean esito) {
 		this.esito = esito;
 	}
-
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Response [result=" + result + ", sessionCode=" + sessionCode
+				+ ", esito=" + esito + "]";
+	}
 
 }
