@@ -40,7 +40,7 @@ public aspect LoginAspect {
 					Session session = setSession(userSessionid);
 					System.out.println("*****session.getCodice() ="+session.getCodice());
 
-					/* salvo la sessione in Response */
+					/* salvo il codice della Session in Response */
 					r.setSessionCode(session.getCodice());
 					
 					System.out.println("****Cart:"+session.getCarrello().getId());
