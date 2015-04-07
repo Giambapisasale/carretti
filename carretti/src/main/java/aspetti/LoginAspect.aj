@@ -73,8 +73,6 @@ public aspect LoginAspect {
 		}
 		private Carrello getUserCart() {
 			Carrello cart = new Carrello();
-			cart.addByCodice("COD01", 2);
-			cart.addByCodice("COD02", 3);
 			cart.setId(101);
 			return cart;
 		}
