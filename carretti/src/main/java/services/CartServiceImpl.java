@@ -15,7 +15,7 @@ public class CartServiceImpl implements CartService {
 	 * 
 	 */
 	@Override
-	public Carrello getCartBySessionId(String sessionId) {
+	public Carrello getCartBySessionId(String sessionId) throws Exception {
 		Integer cartId = cartData.get(sessionId);
 		
 		/* Simulo dati provenienti da DAO */
@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
 		cartData.put(sessionId,cartId);
 	
 	}
-	public void populateDummyData() {
+	public void populateDummyData() throws Exception {
 		Carrello cart = new Carrello();
 		cart.addByCodice("COD01", 2);
 		cart.addByCodice("COD02", 3);

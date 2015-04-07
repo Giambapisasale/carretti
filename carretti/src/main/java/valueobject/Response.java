@@ -2,6 +2,15 @@ package valueobject;
 
 public class Response {
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Response [result=" + result + ", sessionCode=" + sessionCode
+				+ ", esito=" + esito + "]";
+	}
+
 	String result = null;
 	String sessionCode = null;
 	public String getSessionCode() {
