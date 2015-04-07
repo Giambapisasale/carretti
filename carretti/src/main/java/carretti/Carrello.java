@@ -43,13 +43,9 @@ public class Carrello {
 		// recupero un prodotto a partire dal codice
 		Prodotto p = shop.getProdottoByCodice(codice);
 		
-		if(p == null){
-			System.err.println("sono dentro if");
+		if(p == null)
 			throw new Exception("nessun prodotto con il codice " + codice + " è stato"
 					+ " trovato");
-			
-		}else
-			System.err.println("sono qui dentro");
 		Integer quantitaAttuale = 0;
 		if (prodotti.containsKey(codice)) {
 			quantitaAttuale = prodotti.get(codice).getQuantity();

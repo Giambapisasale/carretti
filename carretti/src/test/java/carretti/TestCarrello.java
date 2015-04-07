@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import valueobject.Prodotto;
+import valueobject.ProdottoCarrello;
 
 public class TestCarrello {
 	private Shop shop;
@@ -79,17 +80,24 @@ public class TestCarrello {
 	 * sono presenti nello shop
 	 * 
 	 */
-//	@Test
+	@Test
 	public void testAddProducts() {
+		int quantity = 10;
 		Set<Prodotto> prods = initProducts(P1,P2,P3,P4,P5);
 		for(Prodotto p : prods)
 			try {
-				carrello.addByCodice(p.getCodice(), 10);
+				carrello.addByCodice(p.getCodice(), quantity);
 			} catch (Exception e) {
 				//intentionally empty
 			}
-		HashMap<String, Prodotto> expected = new HashMap<String, Prodotto>();
-		expected.put(P2.getCodice(), P2);
 		
+		//controllo se effettivamente ha inserita 4 prodotti nel carrello
+		assertEquals("la dimensione non corrisponde", 4, carrello.getListaProdotti().size());
+		
+		assertFalse(carrello.getListaProdotti().containsKey(P1.getCodice()));
+		assertTrue(carrello.getListaProdotti().containsKey(P2.getCodice()));
+		assertTrue(carrello.getListaProdotti().containsKey(P3.getCodice()));
+		assertTrue(carrello.getListaProdotti().containsKey(P4.getCodice()));
+		assertTrue(carrello.getListaProdotti().containsKey(P5.getCodice()));
 	}
 }
