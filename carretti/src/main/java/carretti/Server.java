@@ -72,7 +72,12 @@ public class Server {
 	 * @param quantita
 	 */
 	public void addProdotto(String codice, int quantita, Request request) {
-		getSession().getCarrello().addByCodice(codice, quantita);
+		try {
+			getSession().getCarrello().addByCodice(codice, quantita);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return;
 	}
 	
