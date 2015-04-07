@@ -78,6 +78,8 @@ public class TestCarrello {
 		Set<Prodotto> prods = initProducts(P1,P2,P3,P4,P5);
 		for(Prodotto p : prods)
 			carrello.addByCodice(p.getCodice(), 10);
-		HashMap<Integer, Prodotto> expected = new HashMap<Integer, Prodotto>();
+		HashMap<String, Prodotto> expected = new HashMap<String, Prodotto>();
+		expected.put(P2.getCodice(), P2);
+		
 	}
 }
