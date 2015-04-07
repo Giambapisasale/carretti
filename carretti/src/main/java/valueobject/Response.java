@@ -24,6 +24,7 @@ public class Response {
 	public void setSessionCode(String sessionCode) {
 		this.sessionCode = sessionCode;
 	}
+	 
 
 	public String getResult() {
 		return result;
@@ -32,6 +33,11 @@ public class Response {
 	public void setResult(String result) {
 		this.result = result;
 	}
+
+
+	
+
+	
 
 	public Boolean getEsito() {
 		return esito;

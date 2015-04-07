@@ -41,7 +41,7 @@ public final class TestSessione {
 	/**
 	 * credenziali errate
 	 */
-//	@Test
+	@Test
 	public void testLoginNotCorrect() {
 		Response actual = server.login(FAKE_USER, PWD);
 		assertFalse(actual.getEsito());
@@ -53,10 +53,7 @@ public final class TestSessione {
 	@Test
 	public void testSameUserId() {
 		Response expected = server.login(USER_1, PWD);
-		//Response actual = server.login(USER_1, PWD);
-		System.err.println(expected.getSessionCode());
-//		System.err.println(actual.getSessionCode());
-		System.err.println(expected);
-		assertFalse(expected.getSessionCode().isEmpty());
+		Response actual = server.login(USER_1, PWD);
+		assertTrue(expected.getSessionCode().equals(actual.getSessionCode()));
 	}
 }
