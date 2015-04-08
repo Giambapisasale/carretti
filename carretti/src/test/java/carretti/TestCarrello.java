@@ -100,4 +100,65 @@ public class TestCarrello {
 		assertTrue(carrello.getListaProdotti().containsKey(P4.getCodice()));
 		assertTrue(carrello.getListaProdotti().containsKey(P5.getCodice()));
 	}
+	
+	/**
+	 * aggiunge una quantità ad un prodotto già inserito nel carrello
+	 * @throws Exception 
+	 */
+	@Test
+	public void testAddQuantitySameProduct() throws Exception {
+		carrello.addByCodice(P2.getCodice(), 10);
+		carrello.addByCodice(P3.getCodice(), 1);
+		carrello.addByCodice(P2.getCodice(), 13);
+		int expected = 23;
+		int actual = carrello.getListaProdotti().get(P2.getCodice()).getQuantity().intValue();
+		assertSame("quantities not equals", expected, actual);
+	}
+	
+	/**
+	 * rimuove un prodotto dal carrello
+	 */
+	@Test
+	public void testDeleteProduct() throws Exception {
+		int quantity = 10;
+		carrello.addByCodice(P2.getCodice(), quantity);
+		carrello.addByCodice(P3.getCodice(), quantity);
+		carrello.removeByCodice(P2.getCodice(), quantity);
+		assertSame("Product not deleted", 1, carrello.getListaProdotti().size());
+		assertFalse(carrello.getListaProdotti().containsKey(P2.getCodice()));
+		assertTrue(carrello.getListaProdotti().containsKey(P3.getCodice()));
+	}
+	
+	/**
+	 * rimuove una quantità superiore a quella contenuta nel carrello
+	 * 
+	 */
+	@Test
+	public void testDeleteMoreQuantity() throws Exception {
+		
+	}
+	
+	/**
+	 * rimuove un prodotto che non è stato inserito nel carrello
+	 */
+	@Test
+	public void testDeleteProductNotExist() {
+		
+	}
+	
+	/**
+	 * rimuove una quantità passando un numero negativo
+	 */
+	@Test
+	public void testDeleteNegativeQuantity() {
+		
+	}
+	
+	/**
+	 * rimuove tutti i prodotti inseriti nel carrello
+	 */
+	@Test
+	public void testDeleteAllProducts() {
+		
+	}
 }
