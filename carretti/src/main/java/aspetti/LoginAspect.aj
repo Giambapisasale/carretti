@@ -1,6 +1,11 @@
 package aspetti;
 
+import java.util.HashMap;
+
+import valueobject.ProdottoCarrello;
 import valueobject.Response;
+import valueobject.Request;
+
 import utils.GenerateId;
 import carretti.Carrello;
 import carretti.Session;
@@ -8,6 +13,7 @@ import carretti.Server;
 
 import services.ClientServiceImpl;
 import services.SessionServiceImpl;
+
 
 public aspect LoginAspect {
 
@@ -26,11 +32,23 @@ public aspect LoginAspect {
 			execution(Carrello.new()) &&
 			target(cart);
 		
-		before(Carrello cart) : trapCartInit(cart) {
-			System.out.println("BEFORE CART"+thisJoinPoint.getTarget());
-			/* mi accerto che l'utente sia loggato*/
-			
+		/*
+		 * 	public HashMap<String, ProdottoCarrello> getListaProdottiCarrello(Request request) {
+
+		 */
+		pointcut trap_getListaProdottiCarrello(Request request):
+			call(public HashMap<String, ProdottoCarrello> getListaProdottiCarrello(Request) ) 
+			&& target(request);
+		
+		
+		before(Request request) : trap_getListaProdottiCarrello(request) {
+			System.out.println("BEFORE LISTA PRODOTTI"+thisJoinPoint.getTarget());
+
 		}
+		
+		
+		
+		
 		
 		before(String username, String password) : trapUserLogin(username , password ) {
 			
