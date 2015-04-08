@@ -1,6 +1,8 @@
 package aspetti; 
 
 import java.util.HashMap;
+import java.util.List;
+import valueobject.Prodotto;
 
 import valueobject.ProdottoCarrello;
 import valueobject.Response;
@@ -16,7 +18,9 @@ import services.SessionServiceImpl;
 
 
 public aspect LoginAspect {
-
+		
+		String fake_session = "FAKE_SESSION";
+	
 		pointcut trapUserLogin(String username, String password) : 
 			args(username,password) && 
 			call(public Response login(String,String)); 
@@ -32,30 +36,42 @@ public aspect LoginAspect {
 			execution(Carrello.new()) &&
 			target(cart);
 		
+		/* pointcut Server */
+		 
+		
+		
+		pointcut trace_server(String s, int q, Request r): 
+			args(s,q,r) && 
+			( 		call(public * getListaProdotti(Request)) ||
+					call(public void addProdotto(String, int, Request)) ||
+					call(public void removeProdotto(String,int,Request)) 
+			);
+		
+		pointcut trap_addProdotto(String s, int q, Request r):
+			args(s,q,r) && 
+				call(public void addProdotto(String, int, Request));
+		
 		/*
-		 * 	public HashMap<String, ProdottoCarrello> getListaProdottiCarrello(Request request) {
-
-		 */
-		pointcut trap_getListaProdottiCarrello(Request request):
-			call(public HashMap<String, ProdottoCarrello> getListaProdottiCarrello(Request) ) 
-			&& target(request);
-		
-		
-		before(Request request) : trap_getListaProdottiCarrello(request) {
-			System.out.println("BEFORE LISTA PRODOTTI"+thisJoinPoint.getTarget());
-
-		}
-		
-		
-		
-		
-		
-		before(String username, String password) : trapUserLogin(username , password ) {
+		around(String s, int q, Request r) : trap_addProdotto(s,q,r) {
+			System.out.println("*[Aspect]*: addProdotto ");
 			
 		}
-		after(String username, String password) : trapUserLogin(username, password) {
-			//System.out.println("* After UserLogin parameters:"+username+' '+password);
+		*/
+		after(String s, int q, Request r) : trap_addProdotto(s,q,r) {
+			
+			
 		}
+				
+		/*
+		 * Verifica che la sessione sia stata creata
+		 */
+		before(String s, int q, Request req) : trace_server(s,q,req) {
+			if ( req.getSessionCode().equals(fake_session)) {
+				System.out.println("*[Aspect]*:Session Error on " + 
+						thisJoinPoint.getSignature());
+			}
+		}
+		
 		
 		/* Intercetto il valore di ritorno della funzione login()*/
 		after(Server server, String username, String password) returning(Response r): trapLoginExecution(server,username,password) {
@@ -134,8 +150,14 @@ public aspect LoginAspect {
 		 */
 		
 		private Carrello getUserCart() {
+			
+			/*
+			 * controllo se esite un carrello salvato in sessione e lo instanzio
+			 * se non esiste lo creo
+			 */
 			Carrello cart = new Carrello();
 			cart.setId(101);
+
 			return cart;
 		}
 		

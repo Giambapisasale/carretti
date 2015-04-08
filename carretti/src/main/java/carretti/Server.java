@@ -74,6 +74,7 @@ public class Server {
 	 */
 	public void addProdotto(String codice, int quantita, Request request) {
 		try {
+			System.out.println(getSession().getCarrello());
 			getSession().getCarrello().addByCodice(codice, quantita);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

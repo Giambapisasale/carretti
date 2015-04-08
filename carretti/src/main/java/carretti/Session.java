@@ -29,6 +29,13 @@ public class Session {
 	}
 
 	public Carrello getCarrello() {
+		
+		if(carrello == null) {
+			carrello = new Carrello();
+			System.err.println("sono qui dentro");
+		}
+		
+		
 		return carrello;
 	}
 

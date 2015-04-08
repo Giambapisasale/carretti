@@ -8,6 +8,7 @@ package main;
 //import carretti.Client;
 import carretti.Server;
 import services.SessionServiceImpl;
+import valueobject.Request;
 //import utils.LoginCallbackHandler;
 import valueobject.Response;
 import carretti.Carrello;
@@ -41,7 +42,6 @@ public class Main {
 			/* Recupero Session dall'istanza del server */
 			System.out.println("*[Main]* server.getSession().getCodice()" + 
 					server.getSession().getCodice() );
-					
 			
 			/*		
 			System.setProperty("java.security.auth.login.config", "jaas.config");

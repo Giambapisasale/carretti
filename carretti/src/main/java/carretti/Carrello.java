@@ -8,6 +8,12 @@ import valueobject.ProdottoCarrello;
 public class Carrello {
 
 	
+	@Override
+	public String toString() {
+		return "Carrello [id=" + id + ", products=" + products + ", prodotti="
+				+ prodotti + "]";
+	}
+
 	private Integer id;
 	
 	
@@ -15,14 +21,14 @@ public class Carrello {
 	private HashMap<String, ProdottoCarrello> products = null;
 	
 	/**
-	 * Lista di codici di prodotto legata alla quantità 
+	 * Lista di codici di prodotto legata alla quantitï¿½ 
 	 * presente nel carrello in un dato momento
 	 */
 	private HashMap<String, ProdottoCarrello> prodotti = null;
 
 	/**
-	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantità se
-	 * il prodotto è già presente Inizializzazione lazy del carrello
+	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantitï¿½ se
+	 * il prodotto ï¿½ giï¿½ presente Inizializzazione lazy del carrello
 	 * 
 	 * @param codice
 	 *            codice prodotto
@@ -44,7 +50,7 @@ public class Carrello {
 		Prodotto p = shop.getProdottoByCodice(codice);
 		
 		if(p == null)
-			throw new Exception("nessun prodotto con il codice " + codice + " è stato"
+			throw new Exception("nessun prodotto con il codice " + codice + " ï¿½ stato"
 					+ " trovato");
 		Integer quantitaAttuale = 0;
 		if (prodotti.containsKey(codice)) {
@@ -97,7 +103,7 @@ public class Carrello {
 			Prodotto p = shop.getProdottoByCodice(codice);
 			
 			if(p != null) {
-				// recupero la quantità attualmente presente nel carrello
+				// recupero la quantitï¿½ attualmente presente nel carrello
 				// la associo ad un prodotto esistente
 				carrello.put(p.getCodice(), prodotti.get(codice));
 			}
