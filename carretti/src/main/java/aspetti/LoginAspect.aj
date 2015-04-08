@@ -4,6 +4,8 @@ import valueobject.Response;
 import utils.GenerateId;
 import carretti.Carrello;
 import carretti.Session;
+import carretti.Server;
+
 import services.ClientServiceImpl;
 import services.SessionServiceImpl;
 
@@ -13,7 +15,23 @@ public aspect LoginAspect {
 			args(username,password) && 
 			call(public Response login(String,String)); 
 
-
+		
+		pointcut trapLoginExecution(Server server, String username, String password):
+			execution(public Response Server.login(String, String)) &&
+			target(server) &&
+			args(username,password);
+		
+		
+		pointcut trapCartInit(Carrello cart) : 
+			execution(Carrello.new()) &&
+			target(cart);
+		
+		before(Carrello cart) : trapCartInit(cart) {
+			System.out.println("BEFORE CART"+thisJoinPoint.getTarget());
+			/* mi accerto che l'utente sia loggato*/
+			
+		}
+		
 		before(String username, String password) : trapUserLogin(username , password ) {
 			
 		}
@@ -22,33 +40,39 @@ public aspect LoginAspect {
 		}
 		
 		/* Intercetto il valore di ritorno della funzione login()*/
-		after(String username, String password) returning(Response r): trapUserLogin(username, password) {
-				System.out.println("* after con valore di ritorno ="+r.getEsito());
-	
+		after(Server server, String username, String password) returning(Response r): trapLoginExecution(server,username,password) {
+				System.out.println("*[Aspect]* after con valore di ritorno ="+r.getEsito());
+
+				/* login riuscita */
 				if (r.getEsito()) {
-					System.out.println("* Login ok ");
+					System.out.println("*[Aspect]* Login ok ");
 					
 					/*
 					 * controllo se l'utente era già presente nel sistema
 					 */
 					String UserHasSession = isReturnedUser(username);
 
+					/*
+					 * recupero o assegno sessione
+					 */
 					String userSessionid = (UserHasSession != null && !UserHasSession.isEmpty()) ? 
 							UserHasSession : initSessionId();
-					System.out.println("*****userSessionid ="+userSessionid);
-					
+					//System.out.println("*[Aspect]*userSessionid ="+userSessionid);
 					Session session = setSession(userSessionid);
-					System.out.println("*****session.getCodice() ="+session.getCodice());
+					System.out.println("*[Aspect]*session.getCodice() ="+session.getCodice());
 
 					/* salvo il codice della Session in Response */
 					r.setSessionCode(session.getCodice());
-					System.out.println("****Cart:"+session.getCarrello().getId());
+					System.out.println("*[Aspect]*Cart:"+session.getCarrello().getId());
 					
 					/* Salvo l'obj Session simulando la persistenza */
 					persistSession(session);
 					
+					/* salvo la session nell'instanza del server */
+					server.setSession(session);
+					
 			
-				} else System.out.println("* Login failed");
+				} else System.out.println("*[Aspect]* Login failed");
 		 }
 		
 		
@@ -104,7 +128,7 @@ public aspect LoginAspect {
 		 */
 		private void persistSession(Session session) {
 			SessionServiceImpl.getInstance().saveSession(session);
-			System.out.println("SESSIONE SALVATA:"+SessionServiceImpl.getInstance().findSessionByKey(session.getCodice()).getCodice() );
+			System.out.println("*[Aspect]* SESSIONE SALVATA:"+SessionServiceImpl.getInstance().findSessionByKey(session.getCodice()).getCodice() );
 			
 		}
 }
