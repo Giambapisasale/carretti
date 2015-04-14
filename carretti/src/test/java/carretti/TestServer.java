@@ -93,11 +93,6 @@ public class TestServer {
 		assertTrue(server.getListaProdottiCarrello(request).containsKey(P3.getCodice()));
 		assertTrue(server.getListaProdottiCarrello(request).containsKey(P4.getCodice()));
 		HashMap<String, ProdottoCarrello> actual = server.getListaProdottiCarrello(request);
-		HashMap<String, ProdottoCarrello> expected = createListProdottoCarrello(
-				PC2, PC3, PC4);
 		
-		
-		
-//		assertEquals("The list is not equals", expected, actual);
 	}
 }

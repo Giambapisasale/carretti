@@ -135,30 +135,36 @@ public class TestCarrello {
 	 */
 	@Test
 	public void testDeleteMoreQuantity() throws Exception {
-		
+		carrello.addByCodice(P2.getCodice(), 10);
+		carrello.removeByCodice(P2.getCodice(), 20);
+		assertTrue(carrello.getListaProdotti().isEmpty());
 	}
 	
 	/**
 	 * rimuove un prodotto che non è stato inserito nel carrello
+	 * 
 	 */
 	@Test
 	public void testDeleteProductNotExist() {
+		try{
+			carrello.addByCodice(P2.getCodice(), 10);
+			carrello.removeByCodice(P1.getCodice(), 10);
+			fail("Product added");
+		} catch (Exception e) {
+			//intentionally empty
+		}
 		
 	}
 	
 	/**
 	 * rimuove una quantità passando un numero negativo
+	 * @throws Exception 
 	 */
 	@Test
-	public void testDeleteNegativeQuantity() {
-		
-	}
-	
-	/**
-	 * rimuove tutti i prodotti inseriti nel carrello
-	 */
-	@Test
-	public void testDeleteAllProducts() {
-		
+	public void testDeleteNegativeQuantity() throws Exception {
+		carrello.addByCodice(P2.getCodice(), 10);
+		carrello.removeByCodice(P2.getCodice(), -2);
+		int actual = carrello.getListaProdotti().get(P2.getCodice()).getQuantity().intValue();
+		assertSame("Quantity is not equals", 8, actual);
 	}
 }
