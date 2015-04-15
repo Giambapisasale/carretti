@@ -7,6 +7,7 @@ package main;
 //import carretti.Carrello;
 //import carretti.Client;
 import carretti.Server;
+import carretti.Shop;
 import services.SessionServiceImpl;
 import valueobject.Request;
 //import utils.LoginCallbackHandler;
@@ -29,20 +30,35 @@ public class Main {
 				
 		}
 		
+		public static void printProductsInCart(Server server) {
+			System.out.println("----------------------------------------------------------------------");
+			System.out.println("Carrello Utente");
+			try {
+				System.out.println("PRODOTTI:"+ server.getSession().getCarrello().getListaProdotti() ) ;
+
+			} catch (Exception e) {
+				//e.printStackTrace();
+				System.out.println("Carrello Vuoto");
+			}
+
+		}
+		
 		public static void main(String[] args) {
 			
 			final String username = "user1";
 			final String password = "user1";
 
+			
+			/* Start Shop */
+			Shop.InitShop();
+
 			/* Effettuo login */
 			Server server = new Server();
 			Response ret  = server.login(username, password);
-			printSessionInfoFromResponse(ret);
-
-			/* Recupero Session dall'istanza del server */
-			System.out.println("*[Main]* server.getSession().getCodice()" + 
-					server.getSession().getCodice() );
 			
+			printSessionInfoFromResponse(ret);
+			printProductsInCart(server);
+				
 			/*		
 			System.setProperty("java.security.auth.login.config", "jaas.config");
 

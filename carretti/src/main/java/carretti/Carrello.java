@@ -21,14 +21,14 @@ public class Carrello {
 	private HashMap<String, ProdottoCarrello> products = null;
 	
 	/**
-	 * Lista di codici di prodotto legata alla quantit� 
+	 * Lista di codici di prodotto legata alla quantità 
 	 * presente nel carrello in un dato momento
 	 */
 	private HashMap<String, ProdottoCarrello> prodotti = null;
 
 	/**
-	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantit� se
-	 * il prodotto � gi� presente Inizializzazione lazy del carrello
+	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantità se
+	 * il prodotto é già presente Inizializzazione lazy del carrello
 	 * 
 	 * @param codice
 	 *            codice prodotto
@@ -50,7 +50,7 @@ public class Carrello {
 		Prodotto p = shop.getProdottoByCodice(codice);
 		
 		if(p == null)
-			throw new Exception("nessun prodotto con il codice " + codice + " � stato"
+			throw new Exception("nessun prodotto con il codice " + codice + " é stato"
 					+ " trovato");
 		Integer quantitaAttuale = 0;
 		if (prodotti.containsKey(codice)) {
@@ -65,8 +65,8 @@ public class Carrello {
 	}
 
 	/**
-	 * Rimuove un prodotto dal carrello dato il codice, decrementa la quantit�
-	 * se il prodotto � gi� presente
+	 * Rimuove un prodotto dal carrello dato il codice, decrementa la quantità
+	 * se il prodotto é già presente
 	 * 
 	 * 
 	 * @param codice
@@ -103,7 +103,7 @@ public class Carrello {
 			Prodotto p = shop.getProdottoByCodice(codice);
 			
 			if(p != null) {
-				// recupero la quantit� attualmente presente nel carrello
+				// recupero la quantità attualmente presente nel carrello
 				// la associo ad un prodotto esistente
 				carrello.put(p.getCodice(), prodotti.get(codice));
 			}

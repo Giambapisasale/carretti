@@ -8,7 +8,22 @@ import valueobject.Prodotto;
 public class Shop {
 
 	private List<Prodotto> prodotti = null;
-
+	private static Shop shop_instance;
+	public Shop() {
+		
+	}
+	public static Shop getInstance() {
+		if( shop_instance == null) {
+			shop_instance = new Shop();
+		} 
+		return shop_instance;
+	}
+	
+	public static void InitShop() {
+		getInstance();
+	}
+	
+	
 	/** 
 	 * resituisce la lista di prodotti presenti nello shop
 	 * inizializzazione lazy 

@@ -2,17 +2,22 @@ package aspetti;
 
 import java.util.HashMap;
 import java.util.List;
-import valueobject.Prodotto;
+import java.util.Random;
 
+
+
+
+import valueobject.Prodotto;
 import valueobject.ProdottoCarrello;
 import valueobject.Response;
 import valueobject.Request;
-
 import utils.GenerateId;
 import carretti.Carrello;
 import carretti.Session;
 import carretti.Server;
+import carretti.Shop;
 
+import services.CartServiceImpl;
 import services.ClientServiceImpl;
 import services.SessionServiceImpl;
 
@@ -47,9 +52,13 @@ public aspect LoginAspect {
 					call(public void removeProdotto(String,int,Request)) 
 			);
 		
-		pointcut trap_addProdotto(String s, int q, Request r):
-			args(s,q,r) && 
+		pointcut trap_addProdotto(Server srv,  String s, int q, Request r):
+			args(s,q,r) && target(srv)  &&
 				call(public void addProdotto(String, int, Request));
+		
+		pointcut trap_ShopInit(Shop shop) :
+			target(shop) &&
+				execution(Shop.new());
 		
 		/*
 		around(String s, int q, Request r) : trap_addProdotto(s,q,r) {
@@ -57,9 +66,12 @@ public aspect LoginAspect {
 			
 		}
 		*/
-		after(String s, int q, Request r) : trap_addProdotto(s,q,r) {
-			
-			
+		after(Shop shop) : trap_ShopInit(shop) {
+			shop.getProdotti();
+			System.out.println("*[Aspect]*: Inserisco prodotti nel negozio");
+		}
+		after(Server srv,  String s, int q, Request r) : trap_addProdotto(srv,  s,q,r) {
+			System.out.println("**CARRELLO**: "+srv.getSession().getCarrello().getId());
 		}
 				
 		/*
@@ -93,11 +105,11 @@ public aspect LoginAspect {
 							UserHasSession : initSessionId();
 					//System.out.println("*[Aspect]*userSessionid ="+userSessionid);
 					Session session = setSession(userSessionid);
-					System.out.println("*[Aspect]*session.getCodice() ="+session.getCodice());
+					//System.out.println("*[Aspect]*session.getCodice() ="+session.getCodice());
 
 					/* salvo il codice della Session in Response */
 					r.setSessionCode(session.getCodice());
-					System.out.println("*[Aspect]*Cart:"+session.getCarrello().getId());
+				//	System.out.println("*[Aspect]*Cart:"+session.getCarrello().getId());
 					
 					/* Salvo l'obj Session simulando la persistenza */
 					persistSession(session);
@@ -108,6 +120,9 @@ public aspect LoginAspect {
 			
 				} else System.out.println("*[Aspect]* Login failed");
 		 }
+		
+		
+		
 		
 		
 		/*
@@ -141,24 +156,29 @@ public aspect LoginAspect {
 		private Session setSession(String sessionID) {
 			Session session = new Session();
 			session.setCodice(sessionID);
-			session.setCarrello(getUserCart());
+			session.setCarrello(getUserCart(sessionID));
 			return session;
 		}
 		
-		/*
-		 * Provvisoria: setta un id del carrello  
-		 */
 		
-		private Carrello getUserCart() {
-			
-			/*
-			 * controllo se esite un carrello salvato in sessione e lo instanzio
-			 * se non esiste lo creo
-			 */
-			Carrello cart = new Carrello();
-			cart.setId(101);
+		/*
+		 * @param Session sessionID
+		 * @return istanza di Carrello
+		 * 
+		 * controllo se esite un carrello salvato in sessione.
+		 */
+		 private Carrello getUserCart(String sessionID) {
 
-			return cart;
+			CartServiceImpl cartService = new CartServiceImpl();
+			try {
+				Carrello myCart = cartService.getCartBySessionId(sessionID);
+				System.out.println("*[Aspect]* Carrello.id :"+ myCart.getId() );
+				return myCart;
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
 		}
 		
 		
