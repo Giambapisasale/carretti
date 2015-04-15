@@ -45,7 +45,8 @@ public class Server {
 	 * empty utility method
 	 */
 	public void logout() {
-		return;
+		System.out.println("Logout");
+		System.exit(-1);
 	}
 	
 	/**

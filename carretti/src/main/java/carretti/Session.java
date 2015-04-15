@@ -10,7 +10,7 @@ public class Session {
 	
 	Carrello carrello;
 	
-	Date creazione;
+	Long creazione;
 
 	public String getCodice() {
 		return codice;
@@ -43,11 +43,11 @@ public class Session {
 		this.carrello = carrello;
 	}
 
-	public Date getCreazione() {
+	public Long getCreazione() {
 		return creazione;
 	}
 
-	public void setCreazione(Date creazione) {
+	public void setCreazione(Long creazione) {
 		this.creazione = creazione;
 	}
 	

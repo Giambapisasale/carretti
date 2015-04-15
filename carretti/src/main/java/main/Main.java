@@ -6,6 +6,9 @@ package main;
 
 //import carretti.Carrello;
 //import carretti.Client;
+import java.sql.Timestamp;
+import java.util.Calendar;
+
 import carretti.Server;
 import carretti.Shop;
 import services.SessionServiceImpl;
@@ -55,10 +58,14 @@ public class Main {
 			/* Effettuo login */
 			Server server = new Server();
 			Response ret  = server.login(username, password);
+			Request request  = new Request();
+			request.setSessionCode(server.getSession().getCodice());
 			
 			printSessionInfoFromResponse(ret);
 			printProductsInCart(server);
 				
+		    server.addProdotto("A04", 1, request);
+		    
 			/*		
 			System.setProperty("java.security.auth.login.config", "jaas.config");
 

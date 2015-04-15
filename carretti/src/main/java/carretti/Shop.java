@@ -31,7 +31,6 @@ public class Shop {
 	 */
 	public List<Prodotto> getProdotti() {
 		if (prodotti == null) {
-			// TODO spostare su aspetto dedicato
 			prodotti = popolaListaProdotti();
 		}
 		return prodotti;

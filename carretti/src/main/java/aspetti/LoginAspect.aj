@@ -1,8 +1,14 @@
 package aspetti; 
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.SimpleTimeZone;
+import java.util.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 
 
 
@@ -16,7 +22,6 @@ import carretti.Carrello;
 import carretti.Session;
 import carretti.Server;
 import carretti.Shop;
-
 import services.CartServiceImpl;
 import services.ClientServiceImpl;
 import services.SessionServiceImpl;
@@ -45,8 +50,8 @@ public aspect LoginAspect {
 		 
 		
 		
-		pointcut trace_server(String s, int q, Request r): 
-			args(s,q,r) && 
+		pointcut trace_server(Server srv, String s, int q, Request r): 
+			args(s,q,r) && target(srv) &&
 			( 		call(public * getListaProdotti(Request)) ||
 					call(public void addProdotto(String, int, Request)) ||
 					call(public void removeProdotto(String,int,Request)) 
@@ -77,11 +82,20 @@ public aspect LoginAspect {
 		/*
 		 * Verifica che la sessione sia stata creata
 		 */
-		before(String s, int q, Request req) : trace_server(s,q,req) {
+		before(Server srv, String s, int q, Request req) : trace_server(srv, s,q,req) {
 			if ( req.getSessionCode().equals(fake_session)) {
 				System.out.println("*[Aspect]*:Session Error on " + 
 						thisJoinPoint.getSignature());
+			} 
+			/* check session timestamp */
+			if ( checkSessionTimestamp(srv.getSession()) ) {
+				System.out.println("*[Aspect]*: Session è ancora valida");
+			} else {
+				System.out.println("*[Aspect]*: Session expired. Redirect to logout");
+				srv.logout();
 			}
+			
+			
 		}
 		
 		
@@ -105,6 +119,9 @@ public aspect LoginAspect {
 							UserHasSession : initSessionId();
 					//System.out.println("*[Aspect]*userSessionid ="+userSessionid);
 					Session session = setSession(userSessionid);
+
+					
+					
 					//System.out.println("*[Aspect]*session.getCodice() ="+session.getCodice());
 
 					/* salvo il codice della Session in Response */
@@ -155,7 +172,11 @@ public aspect LoginAspect {
 		 */
 		private Session setSession(String sessionID) {
 			Session session = new Session();
+			
+			Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+		    long creationDate = currentTimestamp.getTime();
 			session.setCodice(sessionID);
+			session.setCreazione(creationDate);
 			session.setCarrello(getUserCart(sessionID));
 			return session;
 		}
@@ -189,6 +210,22 @@ public aspect LoginAspect {
 		private void persistSession(Session session) {
 			SessionServiceImpl.getInstance().saveSession(session);
 			System.out.println("*[Aspect]* SESSIONE SALVATA:"+SessionServiceImpl.getInstance().findSessionByKey(session.getCodice()).getCodice() );
+			
+		}
+		
+		/*
+		 * @param Session session 
+		 * @return Boolean 
+		 * simula il controllo del timestamp associato alla Sessione utente.
+		 * Aggiungere la logica per il controllo
+		 * 
+		 */
+		private Boolean checkSessionTimestamp(Session session ) {
+			Long sessionCreated = session.getCreazione();
+			Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+		    long actualTime = currentTimestamp.getTime();
+		    /* do some logic */
+		    return true;
 			
 		}
 }
