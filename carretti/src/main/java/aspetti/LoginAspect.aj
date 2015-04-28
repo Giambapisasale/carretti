@@ -1,6 +1,5 @@
 package aspetti; 
 
-import java.sql.Timestamp;
 import java.util.Calendar;
 
 import services.CartServiceImpl;
@@ -78,7 +77,7 @@ public aspect LoginAspect {
 			} 
 			/* check session timestamp */
 			if ( checkSessionTimestamp(srv.getSession()) ) {
-				System.out.println("*[Aspect]*: Session è ancora valida");
+				System.out.println("*[Aspect]*: Session e' ancora valida");
 			} else {
 				System.out.println("*[Aspect]*: Session expired. Redirect to logout");
 				srv.logout();
@@ -97,7 +96,7 @@ public aspect LoginAspect {
 					System.out.println("*[Aspect]* Login ok ");
 					
 					/*
-					 * controllo se l'utente era già presente nel sistema
+					 * controllo se l'utente era gia'� presente nel sistema
 					 */
 					String UserHasSession = isReturnedUser(username);
 

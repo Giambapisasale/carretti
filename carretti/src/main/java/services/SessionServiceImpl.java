@@ -31,5 +31,9 @@ public class SessionServiceImpl implements SessionService {
 		return sessionData.get(key);
 
 	}
+	@Override
+	public void destroySessionByKey(String key) {
+		sessionData.remove(key);		
+	}
 
 }

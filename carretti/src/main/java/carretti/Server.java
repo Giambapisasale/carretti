@@ -46,7 +46,7 @@ public class Server {
 	 */
 	public void logout() {
 		System.out.println("Logout");
-		System.exit(-1);
+		
 	}
 	
 	/**
