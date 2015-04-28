@@ -21,14 +21,14 @@ public class Carrello {
 	private HashMap<String, ProdottoCarrello> products = null;
 	
 	/**
-	 * Lista di codici di prodotto legata alla quantità 
+	 * Lista di codici di prodotto legata alla quantita'� 
 	 * presente nel carrello in un dato momento
 	 */
 	private HashMap<String, ProdottoCarrello> prodotti = null;
 
 	/**
-	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantità se
-	 * il prodotto é già presente Inizializzazione lazy del carrello
+	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantita'� se
+	 * il prodotto e'� presente Inizializzazione lazy del carrello
 	 * 
 	 * @param codice
 	 *            codice prodotto
@@ -39,18 +39,17 @@ public class Carrello {
 	public void addByCodice(String codice, int quantita) throws Exception {
 		// aggiunge un prodotto al carrello per codice
 
-		// TODO spostare l'inizializzazione laxy in un aspetto dedicato
 		if (prodotti == null) {
 			prodotti = new HashMap<String, ProdottoCarrello>();
 		}
 		// recupero una istanza dello shop
 		// TODO passare a singleton, simula una chiamata al database
-		Shop shop = new Shop();
+		Shop shop = Shop.getInstance();
 		// recupero un prodotto a partire dal codice
 		Prodotto p = shop.getProdottoByCodice(codice);
 		
 		if(p == null)
-			throw new Exception("nessun prodotto con il codice " + codice + " é stato"
+			throw new Exception("nessun prodotto con il codice " + codice + " e' stato"
 					+ " trovato");
 		Integer quantitaAttuale = 0;
 		if (prodotti.containsKey(codice)) {
@@ -65,8 +64,8 @@ public class Carrello {
 	}
 
 	/**
-	 * Rimuove un prodotto dal carrello dato il codice, decrementa la quantità
-	 * se il prodotto é già presente
+	 * Rimuove un prodotto dal carrello dato il codice, decrementa la quantita'
+	 * se il prodotto e' gia'� presente
 	 * 
 	 * 
 	 * @param codice
@@ -98,7 +97,7 @@ public class Carrello {
 			  
 			// recupero una istanza dello shop
 			// TODO passare a singleton, simula una chiamata al database
-			Shop shop = new Shop();
+			Shop shop = Shop.getInstance();
 			// recupero un prodotto a partire dal codice
 			Prodotto p = shop.getProdottoByCodice(codice);
 			

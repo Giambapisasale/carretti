@@ -9,7 +9,7 @@ public class Shop {
 
 	private List<Prodotto> prodotti = null;
 	private static Shop shop_instance;
-	public Shop() {
+	private Shop() {
 		
 	}
 	public static Shop getInstance() {

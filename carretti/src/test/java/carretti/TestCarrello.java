@@ -30,7 +30,7 @@ public class TestCarrello {
 	
 	@Before
 	public void initShop() {
-		shop = new Shop();
+		shop = Shop.getInstance();
 		carrello = new Carrello();
 	}
 	

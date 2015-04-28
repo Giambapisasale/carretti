@@ -54,7 +54,7 @@ public class Server {
 	 * @return
 	 */
 	public List<Prodotto> getListaProdotti() {
-		return new Shop().getProdotti();
+		return Shop.getInstance().getProdotti();
 	}
 
 	/**
