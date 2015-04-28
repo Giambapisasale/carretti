@@ -66,6 +66,9 @@ public class Main {
 				
 		    server.addProdotto("A04", 1, request);
 		    
+		    
+		    server.logout();
+		    
 			/*		
 			System.setProperty("java.security.auth.login.config", "jaas.config");
 
