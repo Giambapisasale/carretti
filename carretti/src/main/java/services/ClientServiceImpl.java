@@ -16,7 +16,7 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	public void populateDummyData() {
-		usersData.put("user1", "f543c2ccfa550171f5816c9fdc310165c7e1cc10");
+//		usersData.put("user1", "f543c2ccfa550171f5816c9fdc310165c7e1cc10");
 
 	}
 

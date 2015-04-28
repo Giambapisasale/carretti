@@ -53,7 +53,7 @@ public aspect LoginAspect {
 		SessionServiceImpl.getInstance().destroySessionByKey(
 				srv.getSession().getCodice());
 		srv.setSession(null);
-		proceed(null);
+		proceed(srv);
 	}
 
 	after(Shop shop) : trap_ShopInit(shop) {
