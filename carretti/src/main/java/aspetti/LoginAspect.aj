@@ -1,30 +1,18 @@
 package aspetti; 
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.SimpleTimeZone;
-import java.util.Date;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
+import java.util.Calendar;
 
-
-
-
-import valueobject.Prodotto;
-import valueobject.ProdottoCarrello;
-import valueobject.Response;
-import valueobject.Request;
-import utils.GenerateId;
-import carretti.Carrello;
-import carretti.Session;
-import carretti.Server;
-import carretti.Shop;
 import services.CartServiceImpl;
 import services.ClientServiceImpl;
 import services.SessionServiceImpl;
+import utils.GenerateId;
+import valueobject.Request;
+import valueobject.Response;
+import carretti.Carrello;
+import carretti.Server;
+import carretti.Session;
+import carretti.Shop;
 
 
 public aspect LoginAspect {
