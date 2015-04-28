@@ -7,7 +7,6 @@ import valueobject.ProdottoCarrello;
 
 public class Carrello {
 
-	
 	@Override
 	public String toString() {
 		return "Carrello [id=" + id + ", products=" + products + ", prodotti="
@@ -15,26 +14,24 @@ public class Carrello {
 	}
 
 	private Integer id;
-	
-	
-	
+
 	private HashMap<String, ProdottoCarrello> products = null;
-	
+
 	/**
-	 * Lista di codici di prodotto legata alla quantita'  
-	 * presente nel carrello in un dato momento
+	 * Lista di codici di prodotto legata alla quantita'ï¿½ presente nel carrello
+	 * in un dato momento
 	 */
 	private HashMap<String, ProdottoCarrello> prodotti = null;
 
 	/**
-	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantita'  se
-	 * il prodotto e'  presente Inizializzazione lazy del carrello
+	 * Aggiunge un Prodotto al carrello dato il codice Incrementa la quantita'ï¿½
+	 * se il prodotto e'ï¿½ presente Inizializzazione lazy del carrello
 	 * 
 	 * @param codice
 	 *            codice prodotto
 	 * @param quantita
 	 *            quantita da aggiungere al carrello
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void addByCodice(String codice, int quantita) throws Exception {
 		// aggiunge un prodotto al carrello per codice
@@ -47,17 +44,17 @@ public class Carrello {
 		Shop shop = Shop.getInstance();
 		// recupero un prodotto a partire dal codice
 		Prodotto p = shop.getProdottoByCodice(codice);
-		
-		if(p == null)
-			throw new Exception("nessun prodotto con il codice " + codice + " e' stato"
-					+ " trovato");
+
+		if (p == null)
+			throw new Exception("nessun prodotto con il codice " + codice
+					+ " e' stato" + " trovato");
 		Integer quantitaAttuale = 0;
 		if (prodotti.containsKey(codice)) {
 			quantitaAttuale = prodotti.get(codice).getQuantity();
 		}
 		quantitaAttuale += quantita;
 		prodotti.put(codice, new ProdottoCarrello(p, quantitaAttuale));
-//		prodotti.put(codice, quantitaAttuale);
+		// prodotti.put(codice, quantitaAttuale);
 
 		return;
 
@@ -65,19 +62,19 @@ public class Carrello {
 
 	/**
 	 * Rimuove un prodotto dal carrello dato il codice, decrementa la quantita'
-	 * se il prodotto e' gia'  presente
+	 * se il prodotto e' gia'ï¿½ presente
 	 * 
 	 * 
 	 * @param codice
 	 *            codice prodotto
 	 * @param quantita
 	 *            quantita da rimuovere dal carrello
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void removeByCodice(String codice, int quantita) throws Exception {
 		if (prodotti != null && prodotti.size() > 0
 				&& prodotti.containsKey(codice)) {
-			
+
 			ProdottoCarrello p = prodotti.get(codice);
 			p.setQuantity(p.getQuantity() - Math.abs(quantita));
 			if (p.getQuantity() <= 0) {
@@ -90,18 +87,18 @@ public class Carrello {
 		}
 		return;
 	}
-	
-	public HashMap<String, ProdottoCarrello> getListaProdotti () {
+
+	public HashMap<String, ProdottoCarrello> getListaProdotti() {
 		HashMap<String, ProdottoCarrello> carrello = new HashMap<String, ProdottoCarrello>();
-		for(String codice : prodotti.keySet()) {
-			  
+		for (String codice : prodotti.keySet()) {
+
 			// recupero una istanza dello shop
 			// TODO passare a singleton, simula una chiamata al database
 			Shop shop = Shop.getInstance();
 			// recupero un prodotto a partire dal codice
 			Prodotto p = shop.getProdottoByCodice(codice);
-			
-			if(p != null) {
+
+			if (p != null) {
 				// recupero la quantitÃ  attualmente presente nel carrello
 				// la associo ad un prodotto esistente
 				carrello.put(p.getCodice(), prodotti.get(codice));
@@ -109,8 +106,6 @@ public class Carrello {
 		}
 		return carrello;
 	}
-
-	
 
 	/**
 	 * @return the id
@@ -120,10 +115,11 @@ public class Carrello {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 }

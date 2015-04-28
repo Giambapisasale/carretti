@@ -9,24 +9,25 @@ public class Shop {
 
 	private List<Prodotto> prodotti = null;
 	private static Shop shop_instance;
+
 	private Shop() {
-		
+
 	}
+
 	public static Shop getInstance() {
-		if( shop_instance == null) {
+		if (shop_instance == null) {
 			shop_instance = new Shop();
-		} 
+		}
 		return shop_instance;
 	}
-	
+
 	public static void InitShop() {
 		getInstance();
 	}
-	
-	
-	/** 
-	 * resituisce la lista di prodotti presenti nello shop
-	 * inizializzazione lazy 
+
+	/**
+	 * resituisce la lista di prodotti presenti nello shop inizializzazione lazy
+	 * 
 	 * @return Lista prodotti
 	 */
 	public List<Prodotto> getProdotti() {
@@ -55,7 +56,7 @@ public class Shop {
 	 */
 	public Prodotto getProdottoByCodice(String codice) {
 		for (Prodotto prod : getProdotti()) {
-			if(prod.getCodice().equalsIgnoreCase(codice)) {
+			if (prod.getCodice().equalsIgnoreCase(codice)) {
 				return prod;
 			}
 		}

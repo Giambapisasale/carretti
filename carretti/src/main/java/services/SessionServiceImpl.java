@@ -6,20 +6,20 @@ import carretti.Session;
 
 public class SessionServiceImpl implements SessionService {
 
-	Hashtable<String, Session> sessionData = new Hashtable<String,Session>();
+	Hashtable<String, Session> sessionData = new Hashtable<String, Session>();
 
-	
-	private static SessionServiceImpl instance ;
-	
-	private SessionServiceImpl() {}
-	public static SessionServiceImpl getInstance() 
-	{
-		if (instance == null ) {
+	private static SessionServiceImpl instance;
+
+	private SessionServiceImpl() {
+	}
+
+	public static SessionServiceImpl getInstance() {
+		if (instance == null) {
 			instance = new SessionServiceImpl();
 		}
 		return instance;
 	}
-	
+
 	@Override
 	public void saveSession(Session session) {
 		sessionData.put(session.getCodice(), session);
@@ -31,9 +31,10 @@ public class SessionServiceImpl implements SessionService {
 		return sessionData.get(key);
 
 	}
+
 	@Override
 	public void destroySessionByKey(String key) {
-		sessionData.remove(key);		
+		sessionData.remove(key);
 	}
 
 }

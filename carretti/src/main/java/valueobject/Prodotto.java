@@ -1,31 +1,37 @@
 package valueobject;
 
 public class Prodotto {
-	
+
 	String codice;
 	String nome;
 	float prezzo;
-	
+
 	public String getCodice() {
 		return codice;
 	}
+
 	public void setCodice(String codice) {
 		this.codice = codice;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public Prodotto(String codice, String nome, float prezzo) {
 		super();
 		this.codice = codice;
 		this.nome = nome;
 		this.prezzo = prezzo;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -33,7 +39,10 @@ public class Prodotto {
 		return "Prodotto [codice=" + codice + ", nome=" + nome + ", prezzo="
 				+ prezzo + "]";
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -43,7 +52,10 @@ public class Prodotto {
 		result = prime * result + ((codice == null) ? 0 : codice.hashCode());
 		return result;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

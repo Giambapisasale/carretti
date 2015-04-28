@@ -40,10 +40,7 @@ public aspect LoginAspect {
 					call(public void removeProdotto(String,int,Request)) 
 			);
 
-	pointcut trap_addProdotto(Server srv, String s, int q, Request r):
-			args(s,q,r) && target(srv)  &&
-				call(public void addProdotto(String, int, Request));
-
+	
 	pointcut trap_ShopInit(Shop shop) :
 			target(shop) &&
 				execution(Shop.new());
@@ -56,7 +53,7 @@ public aspect LoginAspect {
 		SessionServiceImpl.getInstance().destroySessionByKey(
 				srv.getSession().getCodice());
 		srv.setSession(null);
-		proceed(srv);
+		proceed(null);
 	}
 
 	after(Shop shop) : trap_ShopInit(shop) {
@@ -64,10 +61,7 @@ public aspect LoginAspect {
 		System.out.println("*[Aspect]*: Inserisco prodotti nel negozio");
 	}
 
-	after(Server srv, String s, int q, Request r) : trap_addProdotto(srv,  s,q,r) {
-		System.out.println("**CARRELLO**: "
-				+ srv.getSession().getCarrello().getId());
-	}
+	
 
 	/*
 	 * Verifica che la sessione sia stata creata
@@ -97,15 +91,15 @@ public aspect LoginAspect {
 			System.out.println("*[Aspect]* Login ok ");
 
 			/*
-			 * controllo se l'utente era gia'� presente nel sistema
+			 * controllo se l'utente era gia' presente nel sistema
 			 */
-			String UserHasSession = isReturnedUser(username);
+			String userHasSession = isReturnedUser(username);
 
 			/*
 			 * recupero o assegno sessione
 			 */
-			String userSessionid = (UserHasSession != null && !UserHasSession
-					.isEmpty()) ? UserHasSession : initSessionId();
+			String userSessionid = (userHasSession != null && !userHasSession
+					.isEmpty()) ? userHasSession : initSessionId();
 			Session session = setSession(userSessionid);
 			/* salvo il codice della Session in Response */
 			r.setSessionCode(session.getCodice());
@@ -134,8 +128,8 @@ public aspect LoginAspect {
 	 */
 	private String initSessionId() {
 		GenerateId myId = new GenerateId();
-		String SessionID = myId.generateRandomId();
-		return SessionID;
+		String sessionID = myId.generateRandomId();
+		return sessionID;
 	}
 
 	/*

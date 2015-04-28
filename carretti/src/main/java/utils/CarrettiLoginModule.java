@@ -9,16 +9,16 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
-public class CarrettiLoginModule implements LoginModule{
+public class CarrettiLoginModule implements LoginModule {
+	@SuppressWarnings("unused")
 	private Subject subject;
 	private CallbackHandler callbackHandler;
 	private Map sharedState;
 	private Map options;
-	
+
 	@Override
 	public void initialize(Subject subject, CallbackHandler callbackHandler,
 			Map<String, ?> sharedState, Map<String, ?> options) {
@@ -26,19 +26,17 @@ public class CarrettiLoginModule implements LoginModule{
 		this.callbackHandler = callbackHandler;
 		this.sharedState = sharedState;
 		this.options = options;
-		
+
 	}
 
 	@Override
 	public boolean login() throws LoginException {
-		
+
 		boolean returnValue = false;
-		
+
 		System.out.println("Login Call");
 
-		
-		
-		if(callbackHandler == null){
+		if (callbackHandler == null) {
 			throw new LoginException("No callback handler supplied.");
 		}
 
@@ -50,18 +48,18 @@ public class CarrettiLoginModule implements LoginModule{
 			System.out.println("TRY");
 
 			callbackHandler.handle(callbacks);
-			String userName = ((NameCallback)callbacks[0]).getName();
-			char [] passwordCharArray = ((PasswordCallback)callbacks[1]).getPassword();
+			String userName = ((NameCallback) callbacks[0]).getName();
+			char[] passwordCharArray = ((PasswordCallback) callbacks[1])
+					.getPassword();
 			String password = new String(passwordCharArray);
-			
-			System.out.println("*****username:"+userName);
-			System.out.println("*****password:"+password);
 
-			
-	        //==> Authentication.
+			System.out.println("*****username:" + userName);
+			System.out.println("*****password:" + password);
+
+			// ==> Authentication.
 			returnValue = userName.equals(password);
-			System.out.println("*****returnValue:"+returnValue);
-			if(returnValue ) {
+			System.out.println("*****returnValue:" + returnValue);
+			if (returnValue) {
 				System.out.println("Success! You get to log in!");
 				returnValue = true;
 				return true;
@@ -69,9 +67,8 @@ public class CarrettiLoginModule implements LoginModule{
 				System.out.println("Failure! You don't get to log in");
 				returnValue = false;
 				return returnValue;
-				//throw new FailedLoginException("Sorry! No login for you.");
+				// throw new FailedLoginException("Sorry! No login for you.");
 			}
-
 
 		} catch (IOException ioe) {
 			System.out.println("*****catch1");
@@ -80,9 +77,10 @@ public class CarrettiLoginModule implements LoginModule{
 		} catch (UnsupportedCallbackException e) {
 			System.out.println("*****catch2");
 			e.printStackTrace();
-			throw new LoginException("UnsupportedCallbackException encountered.");
+			throw new LoginException(
+					"UnsupportedCallbackException encountered.");
 		}
-	  
+
 	}
 
 	@Override
