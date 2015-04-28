@@ -18,6 +18,7 @@ import carretti.Shop;
 public aspect LoginAspect {
 		
 		String fake_session = "FAKE_SESSION";
+		final long TRENTA_MINUTI_LONG = 30L * 1000L * 60L;
 	
 		pointcut trapUserLogin(String username, String password) : 
 			args(username,password) && 
@@ -161,8 +162,7 @@ public aspect LoginAspect {
 		private Session setSession(String sessionID) {
 			Session session = new Session();
 			
-			Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-		    long creationDate = currentTimestamp.getTime();
+		    long creationDate = Calendar.getInstance().getTime().getTime();
 			session.setCodice(sessionID);
 			session.setCreazione(creationDate);
 			session.setCarrello(getUserCart(sessionID));
@@ -210,10 +210,9 @@ public aspect LoginAspect {
 		 */
 		private Boolean checkSessionTimestamp(Session session ) {
 			Long sessionCreated = session.getCreazione();
-			Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-		    long actualTime = currentTimestamp.getTime();
-		    /* do some logic */
-		    return true;
+			Long now = Calendar.getInstance().getTime().getTime();
+		   
+		    return now - sessionCreated > TRENTA_MINUTI_LONG;
 			
 		}
 }
