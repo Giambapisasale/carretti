@@ -31,6 +31,17 @@ public class SessionServiceImpl implements SessionService {
 		return sessionData.get(key);
 
 	}
+	
+	@Override
+	public Session findSessionByLogin(String login) {
+		for (Session s : sessionData.values()) {
+			if(s.getUtente().equals(login)) {
+				return s;
+			}
+		}
+		return null;
+
+	}
 
 	@Override
 	public void destroySessionByKey(String key) {

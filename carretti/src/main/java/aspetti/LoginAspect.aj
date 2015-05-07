@@ -93,14 +93,17 @@ public aspect LoginAspect {
 			/*
 			 * controllo se l'utente era gia' presente nel sistema
 			 */
-			String userHasSession = isReturnedUser(username);
-
+			Session session = findSession(username);
+			// TODO dopo ogni accesso bisogna resettare il timer di scadenza
+			
 			/*
-			 * recupero o assegno sessione
+			 * se non trovo la sessione per l'utente corrente, ne creo una nuova
 			 */
-			String userSessionid = (userHasSession != null && !userHasSession
-					.isEmpty()) ? userHasSession : initSessionId();
-			Session session = setSession(userSessionid);
+			if(session == null ) {
+				String userSessionid = initSessionId();
+				session = setSession(userSessionid, username);				
+			} 
+			
 			/* salvo il codice della Session in Response */
 			r.setSessionCode(session.getCodice());
 			/* Salvo l'obj Session simulando la persistenza */
@@ -113,14 +116,12 @@ public aspect LoginAspect {
 
 	/*
 	 * @param user login Ricerca la chiave login
+	 * 
 	 */
-	private String isReturnedUser(String login) {
-		ClientServiceImpl cl = new ClientServiceImpl();
-		String ret = cl.findUserByEmail(login);
-		if (ret != null && !ret.isEmpty()) {
-			return ret;
-		}
-		return null;
+	private Session findSession(String login) {
+		SessionServiceImpl sessionService = SessionServiceImpl.getInstance();
+		Session ret = sessionService.findSessionByLogin(login);
+		return ret;
 	}
 
 	/*
@@ -137,13 +138,15 @@ public aspect LoginAspect {
 	 * codice sessionID e e il carrello utente N.B: da integrare con nuove
 	 * funzioni di gestione del carrello
 	 */
-	private Session setSession(String sessionID) {
+	private Session setSession(String sessionID, String username) {
 		Session session = new Session();
 
 		long creationDate = Calendar.getInstance().getTime().getTime();
 		session.setCodice(sessionID);
 		session.setCreazione(creationDate);
 		session.setCarrello(getUserCart(sessionID));
+		session.setUtente(username);
+		
 		return session;
 	}
 
@@ -180,16 +183,17 @@ public aspect LoginAspect {
 
 	}
 
-	/*
+	/**
+	 * simula il controllo del timestamp associato alla Sessione
+	 * utente.
 	 * @param Session session
 	 * 
-	 * @return Boolean simula il controllo del timestamp associato alla Sessione
-	 * utente. Aggiungere la logica per il controllo
+	 * @return Boolean true se la sessione è ancora valida
 	 */
 	private Boolean checkSessionTimestamp(Session session) {
 		Long sessionCreated = session.getCreazione();
 		Long now = Calendar.getInstance().getTime().getTime();
-		return now - sessionCreated > TRENTA_MINUTI_LONG;
+		return now - sessionCreated < TRENTA_MINUTI_LONG;
 
 	}
 }
